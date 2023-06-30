@@ -1,4 +1,4 @@
-import React, { useState, useRef, FormEvent } from "react";
+import { useState, useRef, FormEvent } from "react";
 import useSearch from "../../hooks/useSearch";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { addPerson } from "../../redux/slices/UserSlice";
@@ -19,9 +19,7 @@ const SearchForm = () => {
     event.preventDefault();
     if(searchInput.current?.value !== ""){
       setSearchResult(searchInput.current?.value);
-      dispatch(addPerson({status:"initial", isLoading: true, data: []}));
-      const data = await user.findUser(searchInput.current?.value);
-      dispatch(addPerson({status:data.total_count > 0 ? 'found':'notfound', isLoading: false, data: data.items}));
+      await user.findUser(searchInput.current?.value);
     }else{
       setError(true)
     }
